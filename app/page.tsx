@@ -1,9 +1,12 @@
-import Image from "next/image";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
-export default function Home() {
-  return (
-    <main>
-      <h1>Finance Tracker</h1>
-    </main>
-  );
+export default async function Home() {
+  const { userId } = await auth();
+
+  if (userId) {
+    redirect("/dashboard");
+  } else {
+    redirect("/sign-in");
+  }
 }
