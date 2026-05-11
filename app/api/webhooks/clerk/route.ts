@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { seedDefaultCategories } from "@/lib/seed-categories";
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
 import { NextRequest } from "next/server";
 
@@ -21,6 +22,14 @@ export async function POST(req: NextRequest) {
       });
 
       console.log(`Created user ${id} in database`);
+
+      try {
+        // Default for new users
+        await seedDefaultCategories(id);
+        console.log(`Seeded default categories for user ${id}`);
+      } catch (seedError) {
+        console.error(`Failed to seed categories for user ${id}:`, seedError);
+      }
     }
 
     // User deleted
