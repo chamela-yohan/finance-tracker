@@ -211,56 +211,63 @@ function TransactionRow({
   const isIncome = transaction.type === "INCOME";
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors">
-      {/* Left: Icon + Info */}
-      <div className="flex items-center gap-3">
-        <div
-          className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-          style={{ backgroundColor: `${transaction.category.color}20` }}
-        >
-          {isIncome ? (
-            <TrendingUp
-              className="w-4 h-4"
-              style={{ color: transaction.category.color }}
-            />
-          ) : (
-            <TrendingDown
-              className="w-4 h-4"
-              style={{ color: transaction.category.color }}
-            />
-          )}
-        </div>
+    <div className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+      {/* Icon */}
+      <div
+        className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+        style={{ backgroundColor: `${transaction.category.color}20` }}
+      >
+        {isIncome ? (
+          <TrendingUp
+            className="w-4 h-4"
+            style={{ color: transaction.category.color }}
+          />
+        ) : (
+          <TrendingDown
+            className="w-4 h-4"
+            style={{ color: transaction.category.color }}
+          />
+        )}
+      </div>
 
-        <div>
-          <p className="text-sm font-medium text-gray-900">
-            {transaction.title}
-          </p>
-          <div className="flex items-center gap-2 mt-0.5">
-            <span
-              className="text-xs px-1.5 py-0.5 rounded-full"
-              style={{
-                backgroundColor: `${transaction.category.color}20`,
-                color: transaction.category.color,
-              }}
-            >
-              {transaction.category.name}
+      {/* Info — takes all remaining space */}
+      <div className="flex-1 min-w-0">
+        {/* Title — truncate if too long */}
+        <p className="text-sm font-medium text-gray-900 truncate">
+          {transaction.title}
+        </p>
+
+        {/* Meta row */}
+        <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+          {/* Category badge */}
+          <span
+            className="text-xs px-1.5 py-0.5 rounded-full shrink-0"
+            style={{
+              backgroundColor: `${transaction.category.color}20`,
+              color: transaction.category.color,
+            }}
+          >
+            {transaction.category.name}
+          </span>
+
+          {/* Date */}
+          <span className="text-xs text-gray-400 shrink-0">
+            {format(new Date(transaction.date), "MMM dd, yyyy")}
+          </span>
+
+          {/* Note — only show on larger screens */}
+          {transaction.note && (
+            <span className="text-xs text-gray-400 truncate hidden sm:block max-w-[100px]">
+              · {transaction.note}
             </span>
-            <span className="text-xs text-gray-400">
-              {format(new Date(transaction.date), "MMM dd, yyyy")}
-            </span>
-            {transaction.note && (
-              <span className="text-xs text-gray-400 truncate max-w-32">
-                · {transaction.note}
-              </span>
-            )}
-          </div>
+          )}
         </div>
       </div>
 
-      {/* Right: Amount + Actions */}
-      <div className="flex items-center gap-3">
+      {/* Amount + Actions — always on right, never wrap */}
+      <div className="flex items-center gap-2 shrink-0">
         <span
-          className={`text-sm font-semibold ${
+          className={`text-sm font-semibold tabular-nums ${
             isIncome ? "text-green-600" : "text-red-500"
           }`}
         >
@@ -275,7 +282,7 @@ function TransactionRow({
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 text-gray-400"
+              className="h-7 w-7 text-gray-400 shrink-0"
             >
               <MoreHorizontal className="w-4 h-4" />
             </Button>
@@ -287,7 +294,7 @@ function TransactionRow({
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onDelete(transaction.id)}
-              className="text-red-600"
+              className="text-red-600 focus:text-red-600"
             >
               <Trash2 className="w-3.5 h-3.5 mr-2" />
               Delete

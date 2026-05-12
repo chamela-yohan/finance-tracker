@@ -22,11 +22,10 @@ export function TransactionFilterBar({
   onChange,
 }: TransactionFiltersProps) {
   const { data: categories } = useCategories();
-
   const hasFilters = filters.type || filters.categoryId;
 
   return (
-    <div className="flex flex-wrap gap-2 items-center">
+    <div className="flex flex-row gap-2 items-center flex-wrap">
       {/* Type filter */}
       <Select
         value={filters.type ?? "ALL"}
@@ -34,12 +33,12 @@ export function TransactionFilterBar({
           onChange({
             ...filters,
             type: val === "ALL" ? undefined : (val as "INCOME" | "EXPENSE"),
-            categoryId: undefined, // reset category when type changes
+            categoryId: undefined,
           })
         }
       >
-        <SelectTrigger className="w-36 h-9 text-sm">
-          <SelectValue placeholder="All types" />
+        <SelectTrigger className="flex-1 min-w-30 h-9 text-sm">
+          <SelectValue placeholder="All Types" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="ALL">All Types</SelectItem>
@@ -58,8 +57,8 @@ export function TransactionFilterBar({
           })
         }
       >
-        <SelectTrigger className="w-44 h-9 text-sm">
-          <SelectValue placeholder="All categories" />
+        <SelectTrigger className="flex-1 min-w-[130px] h-9 text-sm">
+          <SelectValue placeholder="All Categories" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="ALL">All Categories</SelectItem>
@@ -69,7 +68,7 @@ export function TransactionFilterBar({
               <SelectItem key={cat.id} value={cat.id}>
                 <div className="flex items-center gap-2">
                   <div
-                    className="w-2 h-2 rounded-full"
+                    className="w-2 h-2 rounded-full shrink-0"
                     style={{ backgroundColor: cat.color }}
                   />
                   {cat.name}
@@ -83,12 +82,11 @@ export function TransactionFilterBar({
       {hasFilters && (
         <Button
           variant="ghost"
-          size="sm"
+          size="icon"
           onClick={() => onChange({})}
-          className="h-9 text-gray-500 hover:text-gray-700"
+          className="h-9 w-9 shrink-0 text-gray-400 hover:text-gray-600"
         >
-          <X className="w-3.5 h-3.5 mr-1" />
-          Clear
+          <X className="w-4 h-4" />
         </Button>
       )}
     </div>
