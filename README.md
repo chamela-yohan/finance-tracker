@@ -119,7 +119,7 @@ finance-tracker/
 │   └── api/             # REST API routes
 │       ├── dashboard/
 │       ├── transactions/
-│       ├── budgets/
+│       ├── budgets/1
 │       ├── categories/
 │       └── webhooks/
 ├── components/
