@@ -24,12 +24,6 @@ import {
 } from "@/components/ui/select";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Budgets",
-};
-
 const MONTHS = [
   "January",
   "February",

@@ -37,12 +37,6 @@ import {
   TrendingDown,
 } from "lucide-react";
 
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Transactions",
-};
-
 export default function TransactionsPage() {
   const [filters, setFilters] = useState<TransactionFilters>({});
   const [formOpen, setFormOpen] = useState(false);
