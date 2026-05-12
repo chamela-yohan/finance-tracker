@@ -24,10 +24,25 @@ import {
 } from "@/components/ui/select";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Budgets",
+};
+
 const MONTHS = [
-  "January", "February", "March", "April",
-  "May", "June", "July", "August",
-  "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 export default function BudgetsPage() {
@@ -81,9 +96,11 @@ export default function BudgetsPage() {
   };
 
   // Summary calculations
-  const totalBudgeted = budgets?.reduce((sum, b) => sum + Number(b.amount), 0) ?? 0;
+  const totalBudgeted =
+    budgets?.reduce((sum, b) => sum + Number(b.amount), 0) ?? 0;
   const totalSpent = budgets?.reduce((sum, b) => sum + b.spent, 0) ?? 0;
-  const overBudgetCount = budgets?.filter((b) => b.spent > b.amount).length ?? 0;
+  const overBudgetCount =
+    budgets?.filter((b) => b.spent > b.amount).length ?? 0;
 
   const currentYear = today.getFullYear();
   const years = [currentYear - 1, currentYear, currentYear + 1];
@@ -94,7 +111,10 @@ export default function BudgetsPage() {
         <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-48 bg-gray-200 rounded-xl animate-pulse" />
+            <div
+              key={i}
+              className="h-48 bg-gray-200 rounded-xl animate-pulse"
+            />
           ))}
         </div>
       </div>
@@ -182,7 +202,10 @@ export default function BudgetsPage() {
         <div className="bg-white rounded-xl border border-gray-100 p-4">
           <p className="text-sm text-gray-500">Total Budgeted</p>
           <p className="text-xl font-bold text-gray-900 mt-1">
-            ${totalBudgeted.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+            $
+            {totalBudgeted.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+            })}
           </p>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4">
@@ -193,10 +216,13 @@ export default function BudgetsPage() {
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4">
           <p className="text-sm text-gray-500">Over Budget</p>
-          <p className={`text-xl font-bold mt-1 ${
-            overBudgetCount > 0 ? "text-red-600" : "text-green-600"
-          }`}>
-            {overBudgetCount} {overBudgetCount === 1 ? "category" : "categories"}
+          <p
+            className={`text-xl font-bold mt-1 ${
+              overBudgetCount > 0 ? "text-red-600" : "text-green-600"
+            }`}
+          >
+            {overBudgetCount}{" "}
+            {overBudgetCount === 1 ? "category" : "categories"}
           </p>
         </div>
       </div>
@@ -238,15 +264,13 @@ export default function BudgetsPage() {
       />
 
       {/* Delete Confirmation */}
-      <AlertDialog
-        open={!!deletingId}
-        onOpenChange={() => setDeletingId(null)}
-      >
+      <AlertDialog open={!!deletingId} onOpenChange={() => setDeletingId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Budget?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will delete the budget limit. Your transactions will not be affected.
+              This will delete the budget limit. Your transactions will not be
+              affected.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

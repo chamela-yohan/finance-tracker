@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Finance Tracker
+
+A full-stack personal finance and budget tracking application built with Next.js 16, Prisma, and PostgreSQL.
+
+## Live Demo
+[https://finance-tracker-ten-bay.vercel.app/](https://finance-tracker-ten-bay.vercel.app/)
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 16 (App Router), TypeScript, Tailwind CSS |
+| UI Components | shadcn/ui, Recharts |
+| Backend | Next.js Route Handlers (REST API) |
+| Database | PostgreSQL (Neon Serverless) |
+| ORM | Prisma 7 |
+| Authentication | Clerk |
+| State Management | TanStack React Query |
+| Deployment | Vercel |
+
+## Features
+
+- **Authentication** — Sign up, login, logout via Clerk
+- **Transactions** — Add, edit, delete, filter income & expenses
+- **Categories** — Custom income/expense categories with colors
+- **Budgets** — Monthly budget limits with real-time progress tracking
+- **Dashboard** — Visual charts and financial summary
+  - Expense distribution (donut chart)
+  - Monthly income vs expenses (bar chart)
+  - Budget vs actual spending (grouped bar chart)
+  - Recent transactions list
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database (or Neon account)
+- Clerk account
 
+### 1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/chamela-yohan/finance-tracker.git
+cd finance-tracker
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> This automatically runs `prisma generate` via the `postinstall` hook.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Set up environment variables
 
-## Learn More
+Copy the example file and fill in your values:
+```bash
+cp .env.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+```env
+# Database (from Neon dashboard)
+DATABASE_URL="postgresql://...?pgbouncer=true&sslmode=require"
+DIRECT_URL="postgresql://...?sslmode=require"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Clerk (from Clerk dashboard)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxx
+CLERK_SECRET_KEY=sk_test_xxx
+CLERK_WEBHOOK_SECRET=whsec_xxx
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Clerk redirect URLs
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/dashboard
+```
 
-## Deploy on Vercel
+### 4. Run database migrations
+```bash
+npx prisma migrate dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. Run the development server
+```bash
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Visit [http://localhost:3000](http://localhost:3000)
+
+## Database Setup
+
+This project uses [Neon](https://neon.tech) serverless PostgreSQL.
+
+1. Create a Neon account at [neon.tech](https://neon.tech)
+2. Create a new project named `finance-tracker`
+3. Copy the **pooled** connection string → `DATABASE_URL`
+4. Copy the **direct** connection string → `DIRECT_URL`
+
+## Authentication Setup
+
+This project uses [Clerk](https://clerk.com) for authentication.
+
+1. Create a Clerk account at [clerk.com](https://clerk.com)
+2. Create a new application
+3. Copy the API keys to your `.env.local`
+4. Set up a webhook endpoint pointing to `/api/webhooks/clerk`
+5. Subscribe to `user.created` and `user.deleted` events
+
+## Project Structure
+
+finance-tracker/
+├── app/
+│   ├── (auth)/          # Sign in / Sign up pages
+│   ├── (dashboard)/     # Protected dashboard pages
+│   │   ├── dashboard/   # Main dashboard with charts
+│   │   ├── transactions/
+│   │   ├── budgets/
+│   │   └── categories/
+│   └── api/             # REST API routes
+│       ├── dashboard/
+│       ├── transactions/
+│       ├── budgets/
+│       ├── categories/
+│       └── webhooks/
+├── components/
+│   ├── dashboard/       # Chart components
+│   ├── transactions/    # Transaction form + filters
+│   ├── budgets/         # Budget card + form
+│   ├── categories/      # Category form
+│   └── layout/          # Sidebar, navbar, mobile menu
+├── hooks/               # React Query hooks
+├── lib/                 # Prisma client, utils, navigation
+└── prisma/
+    └── schema.prisma    # Database schema
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/dashboard` | Dashboard summary + charts data |
+| GET | `/api/transactions` | List transactions (with filters) |
+| POST | `/api/transactions` | Create transaction |
+| PUT | `/api/transactions/[id]` | Update transaction |
+| DELETE | `/api/transactions/[id]` | Delete transaction |
+| GET | `/api/categories` | List categories |
+| POST | `/api/categories` | Create category |
+| PUT | `/api/categories/[id]` | Update category |
+| DELETE | `/api/categories/[id]` | Delete category |
+| GET | `/api/budgets` | List budgets with spending |
+| POST | `/api/budgets` | Create budget |
+| PUT | `/api/budgets/[id]` | Update budget amount |
+| DELETE | `/api/budgets/[id]` | Delete budget |
+| POST | `/api/webhooks/clerk` | Clerk user sync webhook |
+
+## ER Diagram
+
+[View ER Diagram →](https://dbdiagram.io/d/6a02c7ef7a923b947287bbd3)

@@ -17,6 +17,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Categories",
+};
+
+
 export default function CategoriesPage() {
   const { data: categories, isLoading } = useCategories();
   const deleteCategory = useDeleteCategory();

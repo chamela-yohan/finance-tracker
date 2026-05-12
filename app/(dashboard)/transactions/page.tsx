@@ -37,6 +37,12 @@ import {
   TrendingDown,
 } from "lucide-react";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Transactions",
+};
+
 export default function TransactionsPage() {
   const [filters, setFilters] = useState<TransactionFilters>({});
   const [formOpen, setFormOpen] = useState(false);
@@ -71,7 +77,7 @@ export default function TransactionsPage() {
       else acc.expense += Number(t.amount);
       return acc;
     },
-    { income: 0, expense: 0 }
+    { income: 0, expense: 0 },
   ) ?? { income: 0, expense: 0 };
 
   if (isLoading) {
@@ -89,9 +95,7 @@ export default function TransactionsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Transactions</h1>
-          <p className="text-gray-500 mt-1">
-            Manage your income and expenses
-          </p>
+          <p className="text-gray-500 mt-1">Manage your income and expenses</p>
         </div>
         <Button
           onClick={() => setFormOpen(true)}
@@ -107,13 +111,19 @@ export default function TransactionsPage() {
         <div className="bg-white rounded-xl border border-gray-100 p-4">
           <p className="text-sm text-gray-500">Total Income</p>
           <p className="text-xl font-bold text-green-600 mt-1">
-            +${totals.income.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+            +$
+            {totals.income.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+            })}
           </p>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4">
           <p className="text-sm text-gray-500">Total Expenses</p>
           <p className="text-xl font-bold text-red-500 mt-1">
-            -${totals.expense.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+            -$
+            {totals.expense.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+            })}
           </p>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4">
@@ -125,7 +135,8 @@ export default function TransactionsPage() {
                 : "text-red-500"
             }`}
           >
-            ${(totals.income - totals.expense).toLocaleString("en-US", {
+            $
+            {(totals.income - totals.expense).toLocaleString("en-US", {
               minimumFractionDigits: 2,
             })}
           </p>
@@ -172,10 +183,7 @@ export default function TransactionsPage() {
       />
 
       {/* Delete Confirmation */}
-      <AlertDialog
-        open={!!deletingId}
-        onOpenChange={() => setDeletingId(null)}
-      >
+      <AlertDialog open={!!deletingId} onOpenChange={() => setDeletingId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Transaction?</AlertDialogTitle>
@@ -257,7 +265,7 @@ function TransactionRow({
 
           {/* Note — only show on larger screens */}
           {transaction.note && (
-            <span className="text-xs text-gray-400 truncate hidden sm:block max-w-[100px]">
+            <span className="text-xs text-gray-400 truncate hidden sm:block max-w-25">
               · {transaction.note}
             </span>
           )}

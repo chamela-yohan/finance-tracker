@@ -17,6 +17,13 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
+
+
 const MONTHS = [
   "January","February","March","April",
   "May","June","July","August",

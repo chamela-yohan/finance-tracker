@@ -57,7 +57,7 @@ export function TransactionFilterBar({
           })
         }
       >
-        <SelectTrigger className="flex-1 min-w-[130px] h-9 text-sm">
+        <SelectTrigger className="flex-1 min-w-32.5 h-9 text-sm">
           <SelectValue placeholder="All Categories" />
         </SelectTrigger>
         <SelectContent>
