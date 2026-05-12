@@ -132,25 +132,27 @@ finance-tracker/
 ├── lib/                 # Prisma client, utils, navigation
 └── prisma/
     └── schema.prisma    # Database schema
-
+```
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/dashboard` | Dashboard summary + charts data |
-| GET | `/api/transactions` | List transactions (with filters) |
-| POST | `/api/transactions` | Create transaction |
-| PUT | `/api/transactions/[id]` | Update transaction |
-| DELETE | `/api/transactions/[id]` | Delete transaction |
-| GET | `/api/categories` | List categories |
-| POST | `/api/categories` | Create category |
-| PUT | `/api/categories/[id]` | Update category |
-| DELETE | `/api/categories/[id]` | Delete category |
-| GET | `/api/budgets` | List budgets with spending |
-| POST | `/api/budgets` | Create budget |
-| PUT | `/api/budgets/[id]` | Update budget amount |
-| DELETE | `/api/budgets/[id]` | Delete budget |
-| POST | `/api/webhooks/clerk` | Clerk user sync webhook |
+| Method | Endpoint                 | Description                      |
+|--------|--------------------------|----------------------------------|
+| GET    | `/api/dashboard`         | Dashboard summary + charts data  |
+| GET    | `/api/transactions`      | List transactions (with filters) |
+| POST   | `/api/transactions`      | Create transaction               |
+| PUT    | `/api/transactions/[id]` | Update transaction               |
+| DELETE | `/api/transactions/[id]` | Delete transaction               |
+| GET    | `/api/categories`        | List categories                  |
+| POST   | `/api/categories`        | Create category                  |
+| PUT    | `/api/categories/[id]`   | Update category                  |
+| DELETE | `/api/categories/[id]`   | Delete category                  |
+| GET    | `/api/budgets`           | List budgets with spending       |
+| POST   | `/api/budgets`           | Create budget                    |
+| PUT    | `/api/budgets/[id]`      | Update budget amount             |
+| DELETE | `/api/budgets/[id]`      | Delete budget                    |
+| POST   | `/api/webhooks/clerk`    | Clerk user sync webhook          |
+
+
 
 ## ER Diagram
 
