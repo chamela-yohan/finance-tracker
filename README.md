@@ -107,6 +107,7 @@ This project uses [Clerk](https://clerk.com) for authentication.
 
 ## Project Structure
 
+```text
 finance-tracker/
 ├── app/
 │   ├── (auth)/          # Sign in / Sign up pages
